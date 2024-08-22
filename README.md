@@ -11,7 +11,7 @@ Walsh, Silas Ellery, Morgana Lizzio-Wilson, and Craig McGarty.
 <img src="figs/DIMESim.png" alt="Overview of the DIMESim model." style="display: block; margin-left: auto; margin-right: auto; max-width: 400px;">
 
 ## Requirements
-DIMESim has been tested on MATLAB R2021a and requires no additional toolboxes. However, to run experiments in parallel using `SimRunner_par2()` (see below), you will require the  Parallel Computing Toolbox (`distrib_computing_toolbox`). However, the function checks for this at run time and reverts to serial processing if the toolbox is not available.
+DIMESim has been tested on MATLAB R2021a and requires `statistics_toolbox`. However, to run experiments in parallel using `SimRunner_par2()` (see below), you will require the  Parallel Computing Toolbox (`distrib_computing_toolbox`). However, the function checks for this at run time and reverts to serial processing if the toolbox is not available.
 
 You can check if you have the Parallel Computing Toolbox by running the following command in MATLAB:
 ```matlab
@@ -20,7 +20,7 @@ You can check if you have the Parallel Computing Toolbox by running the followin
 A response value of `1` indicates that you have the toolbox.
 
 ## Initalisation
-In Matlab, navigate to the DIMESim director (using `cd`) and run the following command to initialise the model:
+In Matlab, navigate to the DIMESim directory (using `cd`) and run the following command to initialise the model:
 ```matlab
 >> setup
 ```
@@ -39,7 +39,7 @@ The main model function, `runModel.m` is found in the `model/` folder. To test t
 >> IN = read_constant_runfile('constant_runfile.txt');
 >> res = runModel(IN);
 ```
-this should not take more than 1s. The output `res` is a structure containing the model output. If you made no changes to the `constant_runfile.txt`, then you will have run the model with n=100 agents (rows) and 1000 timesteps (cols):
+this should not take more than 1s. The output `res` is a structure variable containing the model output. If you made no changes to the `constant_runfile.txt`, then you will have run the model with n=100 agents (rows) and 1000 timesteps (cols):
 ```matlab
 >> res
 res = 
