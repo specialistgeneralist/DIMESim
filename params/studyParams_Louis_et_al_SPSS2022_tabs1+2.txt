@@ -1,0 +1,33 @@
+
+%% DIME Study Params file, taken from Tables 1 and 2 in
+%
+%  Louis, et al., SPPS 2022.
+
+%% DIME initial mean and sd (see Table 1 of ref)
+
+D_init_MEAN = DIME_conversion(2.5);
+I_init_MEAN = DIME_conversion(2);
+M_init_MEAN = DIME_conversion(4.5);
+E_init_MEAN = DIME_conversion(5);
+
+D_init_SD = (50/3) * 1.2;
+I_init_SD = (50/3) * 1.8;
+M_init_SD = (50/3) * 1.3;
+E_init_SD = (50/3) * 0.9;
+
+%% DIME estimated partial correlations (see Table 2 of ref)
+%  Variable, Outcome, Type, Interaction
+
+DIME_grad_means   = [  0.07, -0.22, -0.02; 
+                        0.0, 0.01, 0.05; 
+                        0.04, -0.01, 0.01; 
+                        0.10, 0.05, 0.05] .* 33.33;
+
+
+DIME_grad_ses     = [   0.03, 0.03, 0.03;
+                        0.02, 0.02, 0.02; 
+                        0.03, 0.03, 0.03;
+                        0.02, 0.02, 0.02] .* 33.33;
+
+%Manuscript table
+% table4 = [[D_init_MEAN ; I_init_MEAN ; M_init_MEAN ; E_init_MEAN] [D_init_SD ; I_init_SD ; M_init_SD ; E_init_SD] reshape([DIME_grad_means ; DIME_grad_ses], 4, 6)];

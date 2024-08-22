@@ -1,0 +1,72 @@
+%% Inputs and variables for running DIME agent simulation.
+
+% // Model variant
+constant.model_variant = 'CollectiveReinterpretation';        % -- 'GeneralBroadcast' or 'IndividualReinterpretation' or 'CollectiveReinterpretation'
+
+% // Study Params we'll be using
+constant.study_params_file = 'studyParams_Louis_et_al_SPSS2022_tabs1+2.txt';
+
+% // Parameter Case Constants
+constant.p = 0.2;                       % -- broadcast prob of success
+constant.F = 0.2;                       % -- threshold for individual reinterpretation from failure
+constant.nu = 0.2;                      % -- threshold for proportion of success in neighborhood for CR
+constant.R = 10;                        % -- number of rounds of collective reinterpretation
+constant.initial_action = 'all inactive conventional'; % type of initial action conditions
+
+% // simulation settings
+constant.n = 100;                       % -- num agents
+constant.T = 1000;                      % -- max steps
+constant.n_replicates = 1;
+constant.base_rng_seed = 2035;  
+constant.x_regression_type = 'orientation';              % --- type of x used for DIME regression
+constant.DIME_update_temp = 1.0;        % -- [0,1] where 0 implies no stochasticity in DIME updating, and 1 implies full stochasticity (addition of uniform random noise on interval [-1,1])
+
+% // network params
+constant.network = 'Holme-Kim';
+constant.m = 6;                         % -- number of edges connected each round
+constant.mt = 5;                        % -- average number of triad-formation steps each round
+constant.N0 = 13;                       % -- size of initial complete subgraph
+%constant.network = 'Watts-Strogatz';
+%constant.k = 6;
+%constant.beta = 0.2;
+
+
+% // progress update and post-processing
+constant.verbose = true;                % -- print model updates
+constant.results_mode = 'full_run';     % -- 'full_run': produce full time-series; 'end_state_only': only end_window in results (e.g. with many replicates); 'minimal': Collated results
+constant.alpha = 0.05;           % -- confidence interval alpha
+constant.nboot = 1000;           % -- number of bootstrap samples to use for confidence intervals
+constant.network_plot_times = [1]; % cannot be left empty
+
+% // stopping module params
+constant.do_stopping = false;           % -- true: stop if stopping condition met; false: run to T
+constant.stopping_check_interval = 200;  % -- how often to check stopping condition
+constant.stopping_window_steps = 500;   % -- length of stopping box (in steps) (backward from now)
+constant.stopping_epsilon = 0.2;        % -- if range(y)/mean(y) < epsilon, stop (for any DIME var)
+constant.rolling_average_window = 20;
+
+% // Variables
+% variable(1).name = 'initial_action';
+% variable(1).values = {'all conventional', 'all inactive conventional', 'all radical', 'all inactive radical', 'random'};
+%variable(2).name = 'F';
+%variable(2).values = [0:0.1:1];
+%variable(3).name = 'nu';
+%variable(3).values = [0:0.1:1];
+%variable(4).name = 'R';
+%variable(4).values = [1 2 10];
+
+
+% // Add replicates if required
+if constant.n_replicates > 1
+    if exist('variable','var') == 0
+        variable = [];
+        ix = 1;
+    else
+        ix = numel(variable)+1;
+    end
+    variable(ix).name = 'rng_seed';
+    variable(ix).values = constant.base_rng_seed:constant.base_rng_seed+constant.n_replicates-1;
+else
+    constant.rng_seed = constant.base_rng_seed;
+end
+ 

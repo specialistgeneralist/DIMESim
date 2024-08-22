@@ -1,0 +1,9 @@
+% -- constants
+constant.report_flag = 0;
+constant.temp        = 25.5;
+constant.graph_type = 'random';
+% -- variables follow
+variable(1).name = 'a';
+variable(1).values = {'red' 'green' 'blue'};
+variable(2).name = 'b';
+variable(2).values = [2 4 8 16];
