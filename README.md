@@ -5,8 +5,8 @@ founded and empirically-informed agent-based model of mobilisation and radicalis
 
 &#x1F4D3; _From Mobilisation to Radicalisation: Isolating the Conditions for the Persistence and Radicalisation of Social Movements Using an Agent-Based Model_
 
-&#x1F58B; By Emma F. Thomas, Mengbin Ye, Simon D. Angus, Tony J. Mathew, Winnifred Louis, Liam
-Walsh, Silas Ellery, Morgana Lizzio-Wilson, and Craig McGarty.
+&#x1F58B; By [Emma F. Thomas (Flinders)](https://www.flinders.edu.au/people/emma.thomas), [Mengbin Ye (Curtin)](https://mengbinye.wordpress.com/), [Simon D. Angus (Monash)](https://research.monash.edu/en/persons/simon-angus), [Tony J. Mathew (Curtin)](https://staffportal.curtin.edu.au/staff/profile/view/tony-mathew-b3201274/), [Winnifred Louis (UQ)](https://psychology.uq.edu.au/profile/2395/winnifred-louis), [Liam
+Walsh (Curtin)](https://staffportal.curtin.edu.au/staff/profile/view/liam-walsh-9a92a6ad/), Silas Ellery (Filnders), [Morgana Lizzio-Wilson (Exeter)](https://psychology.exeter.ac.uk/people/profile/index.php?web_id=Morgana_Lizzio-Wilson), and [Craig McGarty (UWS)](https://scholar.google.com.au/citations?user=-UZ2Kc0AAAAJ&hl=en).
 
 <img src="figs/DIMESim.png" alt="Overview of the DIMESim model." style="display: block; margin-left: auto; margin-right: auto; max-width: 400px;">
 
@@ -19,7 +19,7 @@ You can check if you have the Parallel Computing Toolbox by running the followin
 ```
 A response value of `1` indicates that you have the toolbox.
 
-## Initalisation
+## Initialisation
 In Matlab, navigate to the DIMESim directory (using `cd`) and run the following command to initialise the model:
 ```matlab
 >> setup
