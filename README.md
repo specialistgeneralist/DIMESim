@@ -1,7 +1,7 @@
 # DIMESim - an agent-based model of mobilisation and radicalisation of social movements
 
 This repository contains the code for **DIMESim**, a theoretically-
-founded and empirically-informed agent-based model of mobilisation and radicalisation of social movements introduced and analysed in the paper:
+founded and empirically-informed agent-based model of mobilisation and radicalisation of social movements introduced and analysed in the paper ([preprint](https://arxiv.org/abs/2408.12795) available at arXiv):
 
 &#x1F4D3; _From Mobilisation to Radicalisation: Isolating the Conditions for the Persistence and Radicalisation of Social Movements Using an Agent-Based Model_
 
@@ -115,4 +115,15 @@ We make use of the following packages to run and analyse our model:
 
 
 ## Cite
--- BibTex entry forthcoming --
+Please cite the pre-print, [available](https://arxiv.org/abs/2408.12795) at arxiv.
+```
+@misc{thomas2024dimesim,
+      title={From Mobilisation to Radicalisation: Probing the Persistence and Radicalisation of Social Movements Using an Agent-Based Model}, 
+      author={Emma F. Thomas and Mengbin Ye and Simon D. Angus and Tony J. Mathew and Winnifred Louis and Liam Walsh and Silas Ellery and Morgana Lizzio-Wilson and Craig McGarty},
+      year={2024},
+      eprint={2408.12795},
+      archivePrefix={arXiv},
+      primaryClass={cs.SI},
+      url={https://arxiv.org/abs/2408.12795}, 
+}
+```
