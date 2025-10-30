@@ -23,7 +23,7 @@ PAR_CONST_SET = [];     % -- string ("") array of names of constant parameters t
 PAR_SUBSET = struct();  % -- struct where field is parameter and value is list of parameter values used to filter data set
 PLOT_GROUP_BY = 'Metric'; % -- type of collection plots will be gathered into. Individual - every plot is on a separate figure. Parameters - subplots share same set of parameters; Metric - subplots share same metric being plotted
 PLOT_RC = []; % number of rows and columns for subplot arrangement
-PRINT_PLOT = '';        % -- print format for plots. if '', then don't print
+PRINT_PLOT = 'png';        % -- print format for plots. if '', then don't print
 STEM_SUBSET = {};       % -- cell array subset of DIME and action outputs to be plotted. Default: empty, print all
 SUBPLOT_SUBTITLE = false;   % -- whether titles of subplots should contain subtitle added to full figure (for cropping to subplot)
 
@@ -67,23 +67,31 @@ end
 
 % -- paper figure settings
 switch PAPER_FIGURE
+    case 2
+        % RESFNAME = 'ParameterSweep_p-F_xOrientation_p05p95.mat';
+        % RESFNAME = 'exp2_indiv_reinterp_pF-sweep.mat';
+        PAR_VARX = 'p';
+        PAR_VARY = 'nu';
+        PLOT_GROUP_BY = 'Parameters';
+        STEM_SUBSET = {'ConHab_f', 'Inv_f', 'RadHab_f', 'InaConHab_f', 'InaInv_f', 'InaRadHab_f'};
+        in.FIGURE_SIZE = [1097 889];    
     case 3
-        RESFNAME = 'ParameterSweep_p-F.mat';
+        % RESFNAME = 'ParameterSweep_p-F_xOrientation_p05p95.mat';
+        % RESFNAME = 'exp2_indiv_reinterp_pF-sweep.mat';
         PAR_VARX = 'p';
         PAR_VARY = 'F';
         PLOT_GROUP_BY = 'Parameters';
         STEM_SUBSET = {'ConHab_f', 'Inv_f', 'RadHab_f', 'InaConHab_f', 'InaInv_f', 'InaRadHab_f'};
-        in.MINIMAL_DETAIL = true;
         in.FIGURE_SIZE = [1097 889];    
     case 4
-        RESFNAME = 'ParameterSweep_p-F.mat';
+        % RESFNAME = 'ParameterSweep_p-F_xOrientation_p05p95.mat';
         PAR_VARX = 'p';
         PAR_VARY = 'F';
         PLOT_GROUP_BY = 'DominantAction';       
         in.MINIMAL_DETAIL = true;
         in.FIGURE_SIZE = [700 465];
     case 5
-        RESFNAME = 'ParameterSweep_nu-R_p-F.mat';
+        RESFNAME = 'ParameterSweep_nu-R_p-F_xOrientation_p05p95.mat';
         PAR_VARX = 'p';
         PAR_VARY = 'F';
         PAR_SUBSET = struct('nu', [], 'R', []);
@@ -93,7 +101,7 @@ switch PAPER_FIGURE
         in.FIGURE_SIZE = [];%[1097 889];
     % Supplementary Section
     case -1
-        RESFNAME = 'ParameterSweep_p-F.mat';
+        RESFNAME = 'ParameterSweep_p-F_xOrientation_p05p95.mat';
         PAR_VARX = 'p';
         PAR_VARY = 'F';
         PLOT_GROUP_BY = 'Parameters';
@@ -101,7 +109,7 @@ switch PAPER_FIGURE
         in.MINIMAL_DETAIL = true;
         in.FIGURE_SIZE = [1097 369];
     case -2
-        RESFNAME = 'ParameterSweep_nu-R_p-F.mat';
+        RESFNAME = 'ParameterSweep_nu-R_p-F_xOrientation_p05p95.mat';
         PAR_VARX = 'p';
         PAR_VARY = 'F';
         PAR_SUBSET = struct('nu', [], 'R', []);
@@ -110,7 +118,7 @@ switch PAPER_FIGURE
         in.MINIMAL_DETAIL = true;
         in.FIGURE_SIZE = [];%[1097 889];
     case -3
-        RESFNAME = 'ParameterSweep_nu-R.mat';
+        RESFNAME = 'ParameterSweep_nu-R_xOrientation_p05p95.mat';
         PAR_VARX = 'nu';
         PAR_VARY = 'R';
         PLOT_GROUP_BY = 'Parameters';
@@ -118,7 +126,7 @@ switch PAPER_FIGURE
         in.MINIMAL_DETAIL = true;
         in.FIGURE_SIZE = [1097 889];
     case -4
-        RESFNAME = 'ParameterSweep_nu-R.mat';
+        RESFNAME = 'ParameterSweep_nu-R_xOrientation_p05p95.mat';
         PAR_VARX = 'nu';
         PAR_VARY = 'R';
         PLOT_GROUP_BY = 'Parameters';
@@ -246,7 +254,7 @@ switch PLOT_GROUP_BY
         end
        
     case 'Parameters'
-        in.compact_axis_label = false;
+        in.compact_axis_label = true;
         
         if ~isempty(dime_set)
             output_category = "DIME Value"; 
@@ -255,7 +263,8 @@ switch PLOT_GROUP_BY
             fh = plot_by_inputgroup(1, dime_set, M, [1 numel(dime_set)], plot_zlim, zscaling, output_category, in);
             fh.Name = [simulation_name '_DIME'];
             if string(PRINT_PLOT) == "png"
-                print(fh, '-dpng', '-r100', [filename_prefix '_dime.png'])
+                set(gcf,'Position',[1   379   782   598]);
+                print(fh, '-dpng', '-r300', [filename_prefix '_dime.png'])
             end
         end
         
@@ -266,7 +275,8 @@ switch PLOT_GROUP_BY
             fh = plot_by_inputgroup(2, action_set, M, [2 ceil(numel(action_set)/2)], plot_zlim, zscaling, output_category, in);
             fh.Name = [simulation_name '_Action'];
             if string(PRINT_PLOT) == "png"
-                print(fh, '-dpng', '-r100', [filename_prefix '_actions.png'])
+                set(gcf,'Position',[1   379   782   598]);
+                print(fh, '-dpng', '-r300', [filename_prefix '_actions.png'])
             end
         end
 
@@ -531,125 +541,6 @@ else
         'TickLabels', ["Low" "High"]);    
     % colorbar('Ticks', []);
 end
-hold off;
-end
-
-
-
-
-% --------------------------
-function cb = plot_DominantAction3D(h, M, plot_zlim, zscaling, in)
-%%% plots custom heatmap with each cell colored according to dominant action
-
-hold on;
-PAR_VARX = in.PAR_VARX;
-PAR_VARY = in.PAR_VARY;
-c_map = [in.ps.Con.Color ; in.ps.Inv.Color; in.ps.Rad.Color];
-colormap(h, c_map);
-
-xt = unique(M.(PAR_VARX));
-yt = unique(M.(PAR_VARY));
-dx = xt(2) - xt(1);
-dy = yt(2) - yt(1);
-[xMesh, yMesh] = meshgrid(xt, yt);
-zMesh = nan(size(xMesh));
-cMesh = nan(size(xMesh));
-actionMesh = strings(size(xMesh));
-
-M_actions = table2array(M(:, in.action_stems));
-M.MaxAction = strings(height(M),1); % type of action that is max
-M.MaxActionValue = zeros(height(M),1); % value of max action
-M.MaxActionColorValue = zeros(height(M),1); % color value for max action according to cmap
-for i = 1:height(M_actions) %    
-    action_max = max(M_actions(i,:));
-    M.MaxActionValue(i) = action_max;
-    stem = in.action_stems{find(M_actions(i,:) == action_max, 1)}; % find dominant action
-    M.MaxAction(i) = stem;
-    % M.MaxActionColorValue(i) = find(ismember(in.stems, stem)) - 1 + action_max; % color intensity varies with magnitude
-    if contains(stem, 'Con')
-        M.MaxActionColorValue(i) = 1;
-    elseif contains(stem, 'Inv')
-        M.MaxActionColorValue(i) = 2;
-    elseif contains(stem, 'Rad')
-        M.MaxActionColorValue(i) = 3;
-    else
-        M.MaxActionColorValue(i) = NaN;
-        disp('Color Error');
-    end
-
-    x = find(xt == M.(PAR_VARX)(i));
-    y = find(yt == M.(PAR_VARY)(i));
-    zMesh(x, y) = action_max * zscaling;
-    cMesh(x, y) = M.MaxActionColorValue(i);
-    actionMesh(x, y) = stem;
-end
-
-b = bar3(zMesh', 1); % use 100% of allocated space; i.e. no gap between bars. bar3 plots (y,x)
-view(3);
-for x = 1:numel(xt)
-    for y =1:numel(yt)
-        rows = (y-1)*6 + (1:6);        
-        b(x).XData(rows, :) = (b(x).XData(rows, :) - x) / 1 * dx + xt(x); % preserve same relative scaling
-        b(x).YData(rows, :) = (b(x).YData(rows, :) - y) / 1 * dy + yt(y); % preserve same relative scaling
-        b(x).CData(rows, :) = cMesh(x,y);  
-
-        ps_stem = in.ps.(extractBefore(actionMesh(x,y),'_'));
-        sh = surface(b(x).XData(rows, :), b(x).YData(rows, :), b(x).ZData(rows, :) ...
-            , 'facecolor', c_map(cMesh(x,y),:), 'LineStyle', ps_stem.HatchLineStyle, 'LineWidth', ps_stem.LineWidth);
-        % hatchfill2(sh, ps_stem.HatchStyle, 'HatchAngle', ps_stem.HatchAngle...
-        %     , 'HatchColor', ps_stem.HatchColor, 'HatchLineStyle', ps_stem.HatchLineStyle);   
-        if strcmpi(ps_stem.HatchStyle, 'single')
-            plot3([xt(x) - dx/2 ; xt(x) + dx/2], [yt(y) - dy/2 ; yt(y) + dy/2], [zMesh(x,y) ; zMesh(x,y)], '--', 'Color', ps_stem.HatchColor);
-        end
-    end
-    delete(b(x));
-end
-
-set(gca, 'CLim', [1 3], 'FontSize',10);
-axis square;
-% xlim([min(xt) max(xt)]);
-% ylim([min(yt) max(yt)]);
-zlim(plot_zlim);
-% set(gca, 'FontSize',12, 'ColorLimits',in.ylim, 'Interpreter', 'None');
-grid on;
-
-plot_title = '';
-if ismember(in.PLOT_GROUP_BY, {'Parameters', 'Metric', 'DominantAction'})
-    plot_title = [plot_title char('a' - 1 +tilenum(h)) ') '];
-end
-if ismember(in.PLOT_GROUP_BY, {'Individual', 'Parameters'})
-    plot_title = [plot_title in.ps.DominantAction.DisplayName];    
-end
-plot_title = [plot_title in.plot_subtitle];
-
-if in.INCLUDE_LABELS
-    if in.compact_axis_label
-        xlabel(PAR_VARX);
-        ylabel(PAR_VARY);
-        zlabel('Population Fraction')
-    else
-        % xlabel(in.ps.(PAR_VARX).DisplayName);
-        % ylabel(in.ps.(PAR_VARY).DisplayName);
-        zlabel('Population Fraction')
-        labelwrap(h, in.ps.(PAR_VARX).DisplayName, 'xlabel', 'tex');
-        labelwrap(h, in.ps.(PAR_VARY).DisplayName, 'ylabel', 'tex');
-        % labelwrap(h, in.ps.MaxAction.DisplayName, 'zlabel', 'tex');
-    end
-    xticks(xt);
-    yticks(yt);    
-    cb = colorbar('Ticks', 1 + ((1:3)-1)*2/3 + 2/6, 'TickLabels', ["Conventional" "Innovative" "Radical"], 'Location', 'northoutside');    
-else                
-    xticks([])
-    yticks([])
-    cb = colorbar('Ticks', []);
-end
-
-if strcmpi(in.PLOT_GROUP_BY, 'Metric')
-    title(plot_title, 'interpreter', 'tex');
-else
-    cb.Label.String = plot_title; %in.ps.DominantAction.DisplayName;
-end
-
 hold off;
 end
 

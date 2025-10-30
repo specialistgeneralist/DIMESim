@@ -7,10 +7,10 @@ constant.model_variant = 'CollectiveReinterpretation';        % -- 'GeneralBroad
 constant.study_params_file = 'studyParams_Louis_et_al_SPSS2022_tabs1+2.txt';
 
 % // Parameter Case Constants
-%constant.p = 0.2;                       % -- broadcast prob of success
-%constant.F = 0.2;                       % -- threshold for individual reinterpretation from failure
-%constant.nu = 0.8;                      % -- threshold for proportion of success in neighborhood for CR
-%constant.R = 10;                        % -- number of rounds of collective reinterpretation
+% constant.p = 0.8;                       % -- broadcast prob of success
+constant.F = 0.8;                       % -- threshold for individual reinterpretation from failure
+% constant.nu = 0.2;                      % -- threshold for proportion of success in neighborhood for CR
+constant.R = 4;                         % -- number of rounds of collective reinterpretation
 constant.initial_action = 'all conventional'; % type of initial action conditions
 
 % // simulation settings
@@ -30,32 +30,28 @@ constant.N0 = 13;                       % -- size of initial complete subgraph
 %constant.k = 6;
 %constant.beta = 0.2;
 
-
-% // progress update and post-processing
-constant.verbose = true;                % -- print model updates
-constant.results_mode = 'minimal';     % -- 'full_run': produce full time-series; 'end_state_only': only end_window in results (e.g. with many replicates); 'minimal': Collated results
-constant.alpha = 0.05;           % -- confidence interval alpha
-constant.nboot = 1000;           % -- number of bootstrap samples to use for confidence intervals
-constant.network_plot_times = [1];
+% // Time-series params
+constant.rolling_average_window = 20;
 
 % // stopping module params
 constant.do_stopping = false;           % -- true: stop if stopping condition met; false: run to T
 constant.stopping_check_interval = 200;  % -- how often to check stopping condition
 constant.stopping_window_steps = 500;   % -- length of stopping box (in steps) (backward from now)
 constant.stopping_epsilon = 0.2;        % -- if range(y)/mean(y) < epsilon, stop (for any DIME var)
-constant.rolling_average_window = 20;
+
+% // progress update and post-processing
+constant.verbose = true;                % -- print model updates
+constant.results_mode = 'minimal';     % -- 'full_run': produce full time-series; 'end_state_only': only end_window in results (e.g. with many replicates); 'minimal': Collated results
+constant.alpha = 0.05;           % -- confidence interval alpha
+constant.nboot = 1000;           % -- number of bootstrap samples to use for confidence intervals
+constant.network_plot_times = [1 100 10000];
 
 % // Variables
 
-variable(1).name = 'p';
-variable(1).values = [0.05:0.1:0.95];
-variable(2).name = 'F';
-variable(2).values = [0.05:0.1:0.95];
-variable(3).name = 'nu';
-variable(3).values = [0.2 0.5 0.8];
-variable(4).name = 'R';
-variable(4).values = [1 2 10];
-
+variable(1).name = 'p'; % -- broadcast prob of success
+variable(1).values = [0.05:0.05:0.95];  % -- param sweep
+variable(2).name = 'nu'; % -- threshold for individual reinterpretation from failure
+variable(2).values = [0.05:0.05:0.95];  % -- param sweep
 
 % // Add replicates if required
 if constant.n_replicates > 1

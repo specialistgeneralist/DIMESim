@@ -1,9 +1,13 @@
 # DIMESim - an agent-based model of mobilisation and radicalisation of social movements
 
 This repository contains the code for **DIMESim**, a theoretically-
-founded and empirically-informed agent-based model of mobilisation and radicalisation of social movements introduced and analysed in the paper ([preprint](https://arxiv.org/abs/2408.12795) available at arXiv):
+founded and empirically-informed agent-based model of mobilisation and radicalisation of social movements introduced and analysed in the paper:
 
-&#x1F4D3; _From Mobilisation to Radicalisation: Isolating the Conditions for the Persistence and Radicalisation of Social Movements Using an Agent-Based Model_
+📓 _Latent Radicalism Emerges from the Repeated and Incontrovertible Failure of Collective Action_ (under review)
+
+This repository includes all code necessary to run the model and replicate the figures in the paper. Figure numbers referred to below correspond to figure numbers in the paper under review.
+
+Note: An earlier version of the paper was made available as a [preprint](https://arxiv.org/abs/2408.12795) on arXiv. For the version of this repository relating to that preprint, please see the version [arXiv-v2](https://github.com/specialistgeneralist/DIMESim/releases/tag/v1.0.0) of this repository.
 
 &#x1F58B; By [Emma F. Thomas (Flinders)](https://www.flinders.edu.au/people/emma.thomas), [Mengbin Ye (Curtin)](https://mengbinye.wordpress.com/), [Simon D. Angus (Monash)](https://research.monash.edu/en/persons/simon-angus), [Tony J. Mathew (Curtin)](https://staffportal.curtin.edu.au/staff/profile/view/tony-mathew-b3201274/), [Winnifred Louis (UQ)](https://psychology.uq.edu.au/profile/2395/winnifred-louis), [Liam
 Walsh (Curtin)](https://staffportal.curtin.edu.au/staff/profile/view/liam-walsh-9a92a6ad/), Silas Ellery (Filnders), [Morgana Lizzio-Wilson (Exeter)](https://psychology.exeter.ac.uk/people/profile/index.php?web_id=Morgana_Lizzio-Wilson), and [Craig McGarty (UWS)](https://scholar.google.com.au/citations?user=-UZ2Kc0AAAAJ&hl=en).
@@ -70,33 +74,33 @@ To plot, for example, the time-series of average agent actions, you could run:
 
 To run factorial experiments across parameters as shown in the paper, we use the `SimRunner_par2()` function as a wrapper around `runModel.m`.
 
-To generate the figures in the paper, navigate to the `results` directory and run one of the following commands as follows (qualitative runtimes are noted):
-* Fig. 2a (quick): `SimRunner_par2('NetworkEvolution_C.txt')`
-* Fig. 2b (quick): `SimRunner_par2('NetworkEvolution_LR.txt')`
-* Fig. 2c-d (short): `SimRunner_par2('Timeseries_CDominant.txt')`
-* Fig. 2e-f (short): `SimRunner_par2('Timeseries_LRDominant.txt')`
-* Fig. 3-4, S1 (medium): `SimRunner_par2('ParameterSweep_p-F.txt')`
-* Fig. 5, S2 (long): `SimRunner_par2('ParameterSweep_nu-R_p-F.txt')`
-* Fig. S3-S4 (medium): `SimRunner_par2('ParameterSweep_nu-R.txt')`
-* Fig. S5a,c (short): `SimRunner_par2('InitialActions_CScenario.txt');`
-* Fig. S5b,d (short): `SimRunner_par2('InitialActions_LRScenario.txt')`
-* Fig. S6 (quick): `NetworkTests()`
+To generate the figures in the paper, navigate to the `results` directory and run one of the following commands as follows (qualitative runtimes are noted). Note that if you have not already set up a parallel pool, and you have the Parallel Computing Toolbox, a parallel pool will be created automatically as part of the run:
+* EXP 1
+  * Fig. 2 (left panel): `SimRunner_par2('exp1_general_broadcast_p0p2.txt')` (quick)
+  * Fig. 2 (right panel): `SimRunner_par2('exp1_general_broadcast_p0p8.txt')` (quick)
+  * Fig 3: `SimRunner_par2('exp1_general_broadcast_p-sweep.txt')` (medium)
+* EXP 2
+  * Fig. 4: (left panel): `SimRunner_par2('exp2_indiv_reinterp_p0p8_F0p8.txt')` (short)
+  * Fig. 4: (right panel): `SimRunner_par2('exp2_indiv_reinterp_p0p8_F0p2.txt')` (short)
+  * Fig. 5: `SimRunner_par2('exp2_indiv_reinterp_pF-sweep.txt')` (medium)
+* EXP 3
+  * Fig 6: Main results (n = 100) (main portion of figure):
+    * (left panel) `SimRunner_par2('exp3_collective_reinterp_p0p8_F0p8_nu0p8.txt')` (long)
+    * (right panel) `SimRunner_par2('exp3_collective_reinterp_p0p8_F0p8_nu0p2.txt')` (long)
+  * Fig 6: Small n network results (n = 50) (top of figure):
+    * (left panel) `SimRunner_par2('exp3_collective_reinterp_p0p8_F0p8_nu0p8_n50.txt')` (long)
+    * (right panel) `SimRunner_par2('exp3_collective_reinterp_p0p8_F0p8_nu0p2_n50.txt')` (long)
+  * Fig 7: `SimRunner_par2('exp3_collective-reinterp_pPhi-sweep.txt')` (very long)
 
-After running one of these experiments, `.mat` files will be saved in the `results` directory. To generate the plots in the paper, run the following commands (note that main text figures have been stylized):
-* Fig. 2a: `res_timeseries_plot('NetworkEvolution_C.mat', [], true, true)`
-* Fig. 2b: `res_timeseries_plot('NetworkEvolution_LR.mat', [], true, true)`
-* Fig. 2c-d: `res_timeseries_plot('Timeseries_CDominant.mat', [], true, true)`
-* Fig. 2e-f: `res_timeseries_plot('Timeseries_LRDominant.mat', [], true, true)`
-* Fig. 3: `res_contourf([], [], [], 'paper_figure', 3)`
-* Fig. 4: `res_contourf([], [], [], 'paper_figure', 4)`
-* Fig. 5: `res_contourf([], [], [], 'paper_figure', 5)`
-* Fig. S1: `res_contourf([], [], [], 'paper_figure', -1)`
-* Fig. S2: `res_contourf([], [], [], 'paper_figure', -2)`
-* Fig. S3: `res_contourf([], [], [], 'paper_figure', -3)`
-* Fig. S4: `res_contourf([], [], [], 'paper_figure', -4)`
-* Fig. S5a,c: `res_bargraph('InitialActions_CScenario.mat','initial_action')`
-* Fig. S5b,d: `res_bargraph('InitialActions_LRScenario.mat','initial_action')`
-* Fig. S6: `NetworkTests()`
+Note that, in the 'sweep' experiments, where we are interested only in the population fractions of given types and strategies at the end of the experiment, we set the storage parameters in the file accordingly, leading to much smaller file sizes. For ease of replication, we include the three parameter sweep `.mat' results files in the repo.
+
+Each of these experiments will produce a results file of the same filename, replacing `.txt` with `.mat`. To generate the plots in the paper:
+* For time-series plots (Figs. 2, 4, 6), run `res_timeseries_plot(<filename.mat>)`.
+* For end of experiment population fraction plots:
+  * Fig. 3, run `plot_dime_actions_end_of_exp('exp1_general_broadcast_p-sweep.mat')`
+  * Fig. 5, run `res_contourf('exp2_indiv_reinterp_pF-sweep.mat',[],[],'paper_figure', 3)`
+  * Fig. 7, run `res_contourf('exp3_collective-reinterp_pPhi-sweep.mat',[],[],'paper_figure', 2)`
+
 
 ## Acknowledgements
 We make use of the following packages to run and analyse our model:
@@ -115,7 +119,7 @@ We make use of the following packages to run and analyse our model:
 
 
 ## Cite
-Please cite the pre-print, [available](https://arxiv.org/abs/2408.12795) at arxiv.
+Citation information for the model and associated paper will be available after review. In the meantime, please cite the pre-print, [available](https://arxiv.org/abs/2408.12795) at arxiv.
 ```
 @misc{thomas2024dimesim,
       title={From Mobilisation to Radicalisation: Probing the Persistence and Radicalisation of Social Movements Using an Agent-Based Model}, 
