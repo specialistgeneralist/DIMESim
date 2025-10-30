@@ -12,7 +12,7 @@ Note: An earlier version of the paper was made available as a [preprint](https:/
 &#x1F58B; By [Emma F. Thomas (Flinders)](https://www.flinders.edu.au/people/emma.thomas), [Mengbin Ye (Curtin)](https://mengbinye.wordpress.com/), [Simon D. Angus (Monash)](https://research.monash.edu/en/persons/simon-angus), [Tony J. Mathew (Curtin)](https://staffportal.curtin.edu.au/staff/profile/view/tony-mathew-b3201274/), [Winnifred Louis (UQ)](https://psychology.uq.edu.au/profile/2395/winnifred-louis), [Liam
 Walsh (Curtin)](https://staffportal.curtin.edu.au/staff/profile/view/liam-walsh-9a92a6ad/), Silas Ellery (Filnders), [Morgana Lizzio-Wilson (Exeter)](https://psychology.exeter.ac.uk/people/profile/index.php?web_id=Morgana_Lizzio-Wilson), and [Craig McGarty (UWS)](https://scholar.google.com.au/citations?user=-UZ2Kc0AAAAJ&hl=en).
 
-<img src="figs/DIMESim2.png" alt="Overview of the DIMESim model." style="display: block; margin-left: auto; margin-right: auto; max-width: 400px;">
+<img src="figs/DIMESim2.png" alt="Overview of the DIMESim model." style="display: block; margin-left: auto; margin-right: auto; max-width: 350px;">
 
 ## Requirements
 DIMESim has been tested on MATLAB R2021a and requires `statistics_toolbox`. However, to run experiments in parallel using `SimRunner_par2()` (see below), you will require the  Parallel Computing Toolbox (`distrib_computing_toolbox`). However, the function checks for this at run time and reverts to serial processing if the toolbox is not available.
