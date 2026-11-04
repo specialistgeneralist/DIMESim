@@ -10,6 +10,7 @@ global U D I M E A C xh x
 global G_Outcome_D G_Outcome_I G_Outcome_M G_Outcome_E
 global G_Type_D G_Type_I G_Type_M G_Type_E
 global G_Interaction_D G_Interaction_I G_Interaction_M G_Interaction_E
+global adjMatrix
 
 % -- Set up additional global state vars as required for variant
 if ~contains(IN.model_variant, 'GeneralBroadcast')
@@ -17,7 +18,7 @@ if ~contains(IN.model_variant, 'GeneralBroadcast')
 end
 if contains(IN.model_variant, 'CollectiveReinterpretation')
     global B_after_IR_succ_bool B_after_CR S
-    global adjMatrix pMatrix          % pMatrix(i,j) = 1/deg(i) if i-j is an edge
+    global pMatrix          % pMatrix(i,j) = 1/deg(i) if i-j is an edge
 end
 
 % -- Initialise model (from static file, and params)
@@ -152,6 +153,8 @@ OUT.x = single(x(:, t_record_cols));
 % .. other
 OUT.t_stop = t_stop;
 OUT.stopping_cond_met = stopping_cond_met;
-OUT.adjMatrix = adjMatrix;
+if contains(IN.model_variant, 'CollectiveReinterpretation')
+    OUT.adjMatrix = adjMatrix;
+end
 
 end

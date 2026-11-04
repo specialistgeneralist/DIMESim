@@ -119,41 +119,46 @@ action_struct(i) = struct('Type', "InaInv", 'A', 0, 'C', -1, 'xh', 1); i = i +1;
 action_struct(i) = struct('Type', "InaInv", 'A', 0, 'C', -1, 'xh', -1); i = i +1;
 action_struct(i) = struct('Type', "InaRadHab", 'A', 0, 'C', 1, 'xh', -1); i = i +1;
 
-G = graph(results(1).adjMatrix); % arbitrarily choosing first replicate for network data
-NodeActions = strings(n_npt, n_agents);
-for i = 1: n_npt
-    t = NETWORK_PLOT_TIMES(i);
-    for j = 1:n_agents
-        % NodeAction = '';
-        k = find([action_struct(:).A] == results(1).A(j,t) ...
-            & [action_struct(:).C] == results(1).C(j,t) ...
-            & [action_struct(:).xh] == results(1).xh(j,t), 1);
-        if isempty(k)
-            NodeActions(i,j) = "InaConHab";
-            disp('Warning: Invalid action value');
-        else
-            NodeActions(i,j) = action_struct(k).Type;
+if contains(inputs.model_variant, 'CollectiveReinterpretation')
+    G = graph(results(1).adjMatrix); % arbitrarily choosing first replicate for network data
+    NodeActions = strings(n_npt, n_agents);
+    for i = 1: n_npt
+        t = NETWORK_PLOT_TIMES(i);
+        for j = 1:n_agents
+            % NodeAction = '';
+            k = find([action_struct(:).A] == results(1).A(j,t) ...
+                & [action_struct(:).C] == results(1).C(j,t) ...
+                & [action_struct(:).xh] == results(1).xh(j,t), 1);
+            if isempty(k)
+                NodeActions(i,j) = "InaConHab";
+                disp('Warning: Invalid action value');
+            else
+                NodeActions(i,j) = action_struct(k).Type;
+            end
+            %{
+            switch results(1).x(j,t)
+                case 1
+                    NodeActions(i, j) = "Con";
+                case -1
+                    NodeActions(i,j) = "Rad";
+                case 0
+                    switch results(1).xh(j,t) * results(1).C(j,t)
+                        case 1
+                            NodeActions(i,j) = "InaConLat";
+                        case -1
+                            NodeActions(i,j) = "InaRadLat";
+                        otherwise
+                            NodeActions(i,j) = "InaConLat";
+                            disp('Warning: Latent action of 0');
+                    end
+                otherwise
+                
+            end        
+            %}
         end
-        %{
-        switch results(1).x(j,t)
-            case 1
-                NodeActions(i, j) = "Con";
-            case -1
-                NodeActions(i,j) = "Rad";
-            case 0
-                switch results(1).xh(j,t) * results(1).C(j,t)
-                    case 1
-                        NodeActions(i,j) = "InaConLat";
-                    case -1
-                        NodeActions(i,j) = "InaRadLat";
-                    otherwise
-                        NodeActions(i,j) = "InaConLat";
-                        disp('Warning: Latent action of 0');
-                end
-            otherwise
-               
-        end        
-        %}
+        %1 - (0 + 1 * degreeList / max(degreeList)) * (1 - defaultNodeColor);        
     end
-    %1 - (0 + 1 * degreeList / max(degreeList)) * (1 - defaultNodeColor);        
+else
+    G = [];
+    NodeActions = [];
 end

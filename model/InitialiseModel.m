@@ -7,6 +7,7 @@ global U D I M E A C xh x
 global G_Outcome_D G_Outcome_I G_Outcome_M G_Outcome_E
 global G_Type_D G_Type_I G_Type_M G_Type_E
 global G_Interaction_D G_Interaction_I G_Interaction_M G_Interaction_E
+global adjMatrix
 
 %% // Pre-allocate
 % .. prep init objects

@@ -191,7 +191,11 @@ if results_mode == "minimal"
     save(EXPNAME,'M', 'S', 'inputs_collated');
 elseif results_mode == "timeseries_plot"
     [inputs, res, T, G, NodeActions] = average_results_timeseries(summary, network_plot_times, rolling_average_window);
-    save(EXPNAME, 'inputs', 'res', 'T', 'G', 'NodeActions');
+    if contains(inputs.model_variant, 'CollectiveReinterpretation')
+        save(EXPNAME, 'inputs', 'res', 'T', 'G', 'NodeActions');
+    else    
+        save(EXPNAME, 'inputs', 'res', 'T');
+    end
 else
     save(EXPNAME,'summary','-v7.3'); % for large timeseries
 end
