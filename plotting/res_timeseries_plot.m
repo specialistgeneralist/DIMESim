@@ -88,8 +88,8 @@ fi = fi+1; fh = figure_subplot(fi, [1 1], figure_size); clf
         legend('boxoff');
     else % sufficent detail as stand-alone image
         xlabel('Timestep, t')
-        labelwrap(fh, 'Rolling average in time of action percentage averaged over agents and replicates', 'ylabel');
-        labelwrap(fh, 'Action Rolling Average (Timeseries)', 'title');
+        labelwrap(fh, 'Percentage of population', 'ylabel');
+%         labelwrap(fh, 'Action Rolling Average (Timeseries)', 'title');
         labelwrap(fh, timeseries_subtitle, 'subtitle', 'TeX');
         % labelwrap(fh, sprintf('Showing %d/%d points chosen uniformly on log-scale, with rolling average window of %d' ...
         %     , numel(t_plot), numel(t_set), ROLLING_AVERAGE_WINDOW), 'subtitle');
@@ -105,6 +105,7 @@ fi = fi+1; fh = figure_subplot(fi, [1 1], figure_size); clf
     legend off
     % print as png, with resolution 300
     print([simulation_name '_Action'],'-dpng','-r300');
+    savefig(fh, [simulation_name '_Action.fig']);
 
 fi = fi+1; fh = figure_subplot(fi, [1 1], figure_size); clf
     fh.Name = [simulation_name '_DIME']; 
@@ -126,8 +127,9 @@ fi = fi+1; fh = figure_subplot(fi, [1 1], figure_size); clf
         legend('boxoff');
     else % sufficent detail as stand-alone image    
         xlabel('Timestep, t');
-        labelwrap(fh, 'Rolling average in time of DIME averaged over agents and replicates', 'ylabel');    
-        labelwrap(fh, 'DIME Rolling Average (Timeseries)', 'title');
+%         labelwrap(fh, 'Rolling average in time of DIME averaged over agents and replicates', 'ylabel');    
+labelwrap(fh, 'Mean DIME values in population', 'ylabel');    
+%         labelwrap(fh, 'DIME Rolling Average (Timeseries)', 'title');
         labelwrap(fh, timeseries_subtitle, 'subtitle', 'TeX');
         % labelwrap(fh, sprintf('Showing %d/%d points chosen uniformly on log-scale, with rolling average window of %d' ...
             % , numel(t_plot), numel(t_set), ROLLING_AVERAGE_WINDOW), 'subtitle');
@@ -143,8 +145,16 @@ fi = fi+1; fh = figure_subplot(fi, [1 1], figure_size); clf
     legend off
     % print as png, with resolution 300
     print([simulation_name '_DIME'],'-dpng','-r300');
+    savefig(fh, [simulation_name '_DIME.fig']);
 
 %}  
+
+if ~exist('NodeActions', 'var') || isempty(NodeActions) || ~exist('G', 'var') || isempty(G)
+    fprintf('No network data (model_variant = %s): skipping network plot.\n', string(inputs.model_variant));
+    fprintf('Plot finished: %.2f s\n', toc);
+    return
+end
+
 fi = fi+1; fh = figure_subplot(fi, [1 n_npt], figure_size); clf;
     fh.Name = [simulation_name '_Network'];
     % set(fh, 'Units', 'Normalized', 'OuterPosition', [0.1, 0.1, 0.4, 0.6]);

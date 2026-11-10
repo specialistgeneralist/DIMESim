@@ -10,6 +10,7 @@ global U D I M E A C xh x
 global G_Outcome_D G_Outcome_I G_Outcome_M G_Outcome_E
 global G_Type_D G_Type_I G_Type_M G_Type_E
 global G_Interaction_D G_Interaction_I G_Interaction_M G_Interaction_E
+global adjMatrix
 
 % -- Set up additional global state vars as required for variant
 if ~contains(IN.model_variant, 'GeneralBroadcast')
@@ -17,7 +18,7 @@ if ~contains(IN.model_variant, 'GeneralBroadcast')
 end
 if contains(IN.model_variant, 'CollectiveReinterpretation')
     global B_after_IR_succ_bool B_after_CR S
-    global adjMatrix pMatrix          % pMatrix(i,j) = 1/deg(i) if i-j is an edge
+    global pMatrix          % pMatrix(i,j) = 1/deg(i) if i-j is an edge
 end
 
 % -- Initialise model (from static file, and params)
@@ -87,10 +88,15 @@ for tt = 1 : IN.T
     end    
 
     % -- Evolve DIME variables    
-    D(:, tt + 1) = p_sat(D(:, tt) + Bf .* G_Outcome_D + x_reg .* G_Type_D + x_reg .* Bf .* G_Interaction_D + IN.DIME_update_temp * unifrnd(-1,1, [IN.n, 1]));
-    I(:, tt + 1) = p_sat(I(:, tt) + Bf .* G_Outcome_I + x_reg .* G_Type_I + x_reg .* Bf .* G_Interaction_I + IN.DIME_update_temp * unifrnd(-1,1, [IN.n, 1]));
-    M(:, tt + 1) = p_sat(M(:, tt) + Bf .* G_Outcome_M + x_reg .* G_Type_M + x_reg .* Bf .* G_Interaction_M + IN.DIME_update_temp * unifrnd(-1,1, [IN.n, 1]));
-    E(:, tt + 1) = p_sat(E(:, tt) + Bf .* G_Outcome_E + x_reg .* G_Type_E + x_reg .* Bf .* G_Interaction_E + IN.DIME_update_temp * unifrnd(-1,1, [IN.n, 1]));
+%     D(:, tt + 1) = p_sat(D(:, tt) + Bf .* G_Outcome_D + x_reg .* G_Type_D + x_reg .* Bf .* G_Interaction_D + IN.DIME_update_temp * unifrnd(-1,1, [IN.n, 1]));
+%     I(:, tt + 1) = p_sat(I(:, tt) + Bf .* G_Outcome_I + x_reg .* G_Type_I + x_reg .* Bf .* G_Interaction_I + IN.DIME_update_temp * unifrnd(-1,1, [IN.n, 1]));
+%     M(:, tt + 1) = p_sat(M(:, tt) + Bf .* G_Outcome_M + x_reg .* G_Type_M + x_reg .* Bf .* G_Interaction_M + IN.DIME_update_temp * unifrnd(-1,1, [IN.n, 1]));
+%     E(:, tt + 1) = p_sat(E(:, tt) + Bf .* G_Outcome_E + x_reg .* G_Type_E + x_reg .* Bf .* G_Interaction_E + IN.DIME_update_temp * unifrnd(-1,1, [IN.n, 1]));
+
+D(:, tt + 1) = p_sat_quad(D(:, tt) + Bf .* G_Outcome_D + x_reg .* G_Type_D + x_reg .* Bf .* G_Interaction_D + IN.DIME_update_temp * unifrnd(-1,1, [IN.n, 1]),'eps',20);
+    I(:, tt + 1) = p_sat_quad(I(:, tt) + Bf .* G_Outcome_I + x_reg .* G_Type_I + x_reg .* Bf .* G_Interaction_I + IN.DIME_update_temp * unifrnd(-1,1, [IN.n, 1]),'eps',20);
+    M(:, tt + 1) = p_sat_quad(M(:, tt) + Bf .* G_Outcome_M + x_reg .* G_Type_M + x_reg .* Bf .* G_Interaction_M + IN.DIME_update_temp * unifrnd(-1,1, [IN.n, 1]),'eps',20);
+    E(:, tt + 1) = p_sat_quad(E(:, tt) + Bf .* G_Outcome_E + x_reg .* G_Type_E + x_reg .* Bf .* G_Interaction_E + IN.DIME_update_temp * unifrnd(-1,1, [IN.n, 1]),'eps',20);
     
     % -- Evolve action intention and current action focus values
     A(:, tt + 1) = action_intention(D(:, tt + 1), I(:, tt + 1), M(:, tt + 1), E(:, tt + 1));
@@ -152,6 +158,8 @@ OUT.x = single(x(:, t_record_cols));
 % .. other
 OUT.t_stop = t_stop;
 OUT.stopping_cond_met = stopping_cond_met;
-OUT.adjMatrix = adjMatrix;
+if contains(IN.model_variant, 'CollectiveReinterpretation')
+    OUT.adjMatrix = adjMatrix;
+end
 
 end
